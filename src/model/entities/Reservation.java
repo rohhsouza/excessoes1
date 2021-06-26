@@ -1,20 +1,24 @@
 package model.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Reservation {
 	
 	private Integer roomNumber;
-	private Date checkin;
-	private Date checkout;
+	private Date checkIn;
+	private Date checkOut;
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	
 	public Reservation() {
 	}
-	public Reservation(Integer roomNumber, Date checkin, Date checkout) {
+	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
 		this.roomNumber = roomNumber;
-		this.checkin = checkin;
-		this.checkout = checkout;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
 	}
 	
 
@@ -24,33 +28,33 @@ public class Reservation {
 	public void setRoomNumber(Integer roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-	public Date getCheckin() {
-		return checkin;
+	public Date getcheckIn() {
+		return checkIn;
 	}
-	public void setCheckin(Date checkin) {
-		this.checkin = checkin;
-	}
-	public Date getCheckout() {
-		return checkout;
-	}
-	public void setCheckout(Date checkout) {
-		this.checkout = checkout;
+	public Date getcheckOut() {
+		return checkOut;
 	}
 	
+	public Long duration() {
+		long diff = checkOut.getTime() - checkIn.getTime();
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+	
+	public void updateDates(Date checkIn, Date checkOut) {
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+	}
 	
 	@Override
 	public String toString() {
-		return "Reservation [roomNumber=" + roomNumber + ", checkin=" + checkin + ", checkout=" + checkout + "]";
+		return "Room " 
+	+ roomNumber 
+	+ " , check-in: " 
+	+ sdf.format(checkIn)
+	+ " , check-out: "
+	+ sdf.format(checkOut)
+	+ ", "
+	+ duration()
+	+ " nights.";
 	}
-	
-	
-	public Integer duration() {
-		return 0;
-	}
-	public Date upDates(Date checkin, Date checkout) {
-		return new Date();
-	}
-	
-	
-	
 }
